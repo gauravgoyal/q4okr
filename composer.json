@@ -107,7 +107,7 @@
     "prefer-stable": true,
     "scripts": {
         "commit": [
-            "php vendor/bin/php-commitizen commit < /dev/tty"
+            "php vendor/bin/php-commitizen commit .php-commitizen.php --ansi < /dev/tty"
         ],
         "post-create-project-cmd": [
             "blt internal:create-project:init-repo"

@@ -1,0 +1,117 @@
+#!/usr/bin/env php
+
+<?php
+
+echo "Executing .git/hooks/commit-msg...\n";
+$repo_root = getcwd();
+
+$original_argv = $_SERVER['argv'];
+$commit_msg = rtrim(file_get_contents($original_argv[1]), "\n");
+
+startParsing($commit_msg);
+
+/**
+ * Validate the commit message.
+ *
+ * @param $message
+ *   Expects the commit message.
+ */
+function startParsing($message) {
+  $config = include(dirname(__FILE__) . '/../.php-commitizen.php');
+  $lines = explode('\n', $message);
+  if (isset($lines[0])) {
+    $parsedHeader = parseHeader($lines[0]);
+    var_dump($parsedHeader);
+    $type_errors = testType($parsedHeader['type'], $config['type']);
+    $scope_errors = testScope($parsedHeader['scope'], $config['scope']);
+    $message_errors = testMesage($parsedHeader['message'], $config['description']);
+    $errors = array_merge($type_errors, $scope_errors, $message_errors);
+  }
+
+  foreach ($errors as $error) {
+    echo $error;
+  }
+  return 0;
+}
+
+function testType($type, $config) {
+  $errors = [];
+  $length = trim(strlen($type));
+
+  // Check the length of the commit type.
+  if (!checkLength($config['lengthMin'], $config['lengthMax'], $length)) {
+    $error =  sprintf("Invalid length for type: '%s'. Must be between %s and %s", $type, $config['lengthMin'], $config['lengthMax']);
+    array_push($errors, $error);
+  }
+
+  // Verify the scope of the commit type.
+  if (!checkValue($type, $config['values'])) {
+    $error =  sprintf("%s is not a valid type. Type should be either of the following %s", $type, implode(', ', $config['values']));
+    array_push($errors, $error);
+  }
+
+  return $errors;
+}
+
+function testScope($scope, $config) {
+  $errors = [];
+  $length = trim(strlen($scope));
+
+  // Check the length of the commit type.
+  if (!checkLength($config['lengthMin'], $config['lengthMax'], $length)) {
+    $error =  sprintf("Invalid length for type: '%s'. Must be between %s and %s", $scope, $config['lengthMin'], $config['lengthMax']);
+    array_push($errors, $error);
+  }
+
+  // Verify the scope of the commit type.
+  if (!$config['acceptExtra'] && !checkValue($scope, $config['values'])) {
+    $error =  sprintf("%s is not a valid Scope. Scope should be either of the following %s", $scope, implode(', ', $config['values']));
+    array_push($errors, $error);
+  }
+
+  return $errors;
+}
+
+function testMesage($message, $config) {
+  $errors = [];
+  $length = trim(strlen($message));
+
+  // Check the length of the commit type.
+  if (!checkLength($config['lengthMin'], $config['lengthMax'], $length)) {
+    $error =  sprintf("Invalid length for message: '%s'. Must be between %s and %s", $scope, $config['lengthMin'], $config['lengthMax']);
+    array_push($errors, $error);
+  }
+
+  return $errors;
+}
+
+function checkLength($min, $max, $length) {
+  $pass = TRUE;
+  if ($length > $max || $length < $min) {
+    $pass = FALSE;
+  }
+  return $pass;
+}
+
+function checkValue($type, $values) {
+  $pass = TRUE;
+  if (!in_array($type, $values)) {
+    $pass = FALSE;
+  }
+  return $pass;
+}
+
+
+function parseHeader($header) {
+  $pattern = '/^(?:fix!\s*)?(\w*)(\(([\w\$\.\*\/-]*)\))?\: (.*)$/';
+  preg_match($pattern, $header, $matches);
+  $parsedHeader = [];
+  if (!empty($matches)) {
+    $parsedHeader = [
+      'type' => $matches[1],
+      'scope' => $matches[3],
+      'message' => $matches[4]
+    ];
+  }
+  return $parsedHeader;
+}
