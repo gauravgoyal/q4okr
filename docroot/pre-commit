@@ -19,19 +19,28 @@ startParsing($commit_msg);
 function startParsing($message) {
   $config = include(dirname(__FILE__) . '/../.php-commitizen.php');
   $lines = explode('\n', $message);
+  $errors = [];
   if (isset($lines[0])) {
     $parsedHeader = parseHeader($lines[0]);
-    var_dump($parsedHeader);
-    $type_errors = testType($parsedHeader['type'], $config['type']);
-    $scope_errors = testScope($parsedHeader['scope'], $config['scope']);
-    $message_errors = testMesage($parsedHeader['message'], $config['description']);
-    $errors = array_merge($type_errors, $scope_errors, $message_errors);
+    if (empty($parsedHeader['type'])) {
+      $error = "Commit Type is missing";
+      array_push($errors, $error);
+    }
+    else {
+      $type_errors = testType($parsedHeader['type'], $config['type']);
+      $scope_errors = testScope($parsedHeader['scope'], $config['scope']);
+      $message_errors = testMesage($parsedHeader['message'], $config['description']);
+      $errors = array_merge($type_errors, $scope_errors, $message_errors);
+    }
   }
 
-  foreach ($errors as $error) {
-    echo $error;
+  if (!empty($errors)) {
+    foreach ($errors as $error) {
+      print $error . "\026\n";
+    }
+    exit(-1);
   }
-  return 1;
+  exit(0);
 }
 
 function testType($type, $config) {
