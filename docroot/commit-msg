@@ -110,7 +110,9 @@ function checkValue($type, $values) {
   return $pass;
 }
 
-
+/**
+ * Parse commit header.
+ */
 function parseHeader($header) {
   $pattern = '/^(?:fix!\s*)?(\w*)(\(([\w\$\.\*\/-]*)\))?\: (.*)$/';
   preg_match($pattern, $header, $matches);
