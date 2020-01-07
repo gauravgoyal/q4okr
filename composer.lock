@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c5a9af6eb40f63a10dfc83d7faabe46",
+    "content-hash": "f46dab3c89147f6d32a945220080bd78",
     "packages": [
         {
             "name": "acquia/blt",
@@ -8784,6 +8784,57 @@
             "time": "2018-06-29T15:13:57+00:00"
         },
         {
+            "name": "fojuth/readmegen",
+            "version": "1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gauravgoyal/readmegen.git",
+                "reference": "ced2c6267f288192792ac5ad092c11860f23300e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gauravgoyal/readmegen/zipball/ced2c6267f288192792ac5ad092c11860f23300e",
+                "reference": "ced2c6267f288192792ac5ad092c11860f23300e",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/yaml": "^3.2 || ~2.1",
+                "ulrichsg/getopt-php": "2.*"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "^2.5"
+            },
+            "bin": [
+                "readmegen"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ReadmeGen\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kamil Fojuth",
+                    "email": "fojuth@gmail.com"
+                }
+            ],
+            "description": "Readme file / doc generator. It uses VCS logs as a source of information.",
+            "keywords": [
+                "generator",
+                "log parser",
+                "readme",
+                "vcs"
+            ],
+            "support": {
+                "source": "https://github.com/gauravgoyal/readmegen/tree/1.1.3"
+            },
+            "time": "2019-02-14T00:43:02+00:00"
+        },
+        {
             "name": "gauravgoyal/php-commitizen",
             "version": "v0.1.5",
             "source": {
@@ -13889,6 +13940,51 @@
                 "stream-wrapper"
             ],
             "time": "2019-10-18T11:57:16+00:00"
+        },
+        {
+            "name": "ulrichsg/getopt-php",
+            "version": "2.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/getopt-php/getopt-php.git",
+                "reference": "23e564e947bca79bf867840fead957889e711967"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/getopt-php/getopt-php/zipball/23e564e947bca79bf867840fead957889e711967",
+                "reference": "23e564e947bca79bf867840fead957889e711967",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8",
+                "squizlabs/php_codesniffer": "^2.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ulrichsg\\Getopt\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ulrich Schmidt-Goertz",
+                    "email": "ulrich@schmidt-goertz.de"
+                },
+                {
+                    "name": "Thomas Flori",
+                    "email": "thflori@gmail.com"
+                }
+            ],
+            "description": "Command line arguments parser for PHP 5.3 - 7.1",
+            "homepage": "http://ulrichsg.github.io/getopt-php",
+            "time": "2017-07-02T15:56:33+00:00"
         },
         {
             "name": "vardot/blazy",
