@@ -20,18 +20,27 @@ function startParsing($message) {
   $config = include(dirname(__FILE__) . '/../.php-commitizen.php');
   $lines = explode('\n', $message);
   $errors = [];
+
   if (isset($lines[0])) {
     $parsedHeader = parseHeader($lines[0]);
+
+    if (empty($parsedHeader['project_prefix'])) {
+      $error = "Project Prefix is missing";
+      array_push($errors, $error);
+    }
+    else {
+      $errors = testProjectPrefix($parsedHeader['project_prefix'], $config['project']);
+    }
+
     if (empty($parsedHeader['type'])) {
       $error = "Commit Type is missing";
       array_push($errors, $error);
     }
     else {
-      $project_prefix_errors = testProjectPrefix($parsedHeader['project_prefix'], $config['project']);
       $type_errors = testType($parsedHeader['type'], $config['type']);
       $scope_errors = testScope($parsedHeader['scope'], $config['scope']);
       $message_errors = testMesage($parsedHeader['message'], $config['description']);
-      $errors = array_merge($project_prefix_errors, $type_errors, $scope_errors, $message_errors);
+      $errors = array_merge($errors, $type_errors, $scope_errors, $message_errors);
     }
   }
 
@@ -49,7 +58,6 @@ function testProjectPrefix($project_prefix, $config)
   $errors = [];
 
   // Check the length of the commit type.
-  var_dump($project_prefix);
   if ($config['prefix'] && !preg_match($config['pattern'], $project_prefix)) {
     $error =  sprintf("Invalid project prefix: '%s'", $project_prefix);
     array_push($errors, $error);
@@ -129,8 +137,10 @@ function checkValue($type, $values) {
  */
 function parseHeader($header) {
   $exploded_header = explode('@', $header);
-  $project_prefix = $exploded_header[0];
-  $header = $exploded_header[1];
+  if (count($exploded_header) >= 2) {
+    $project_prefix = $exploded_header[0];
+    $header = $exploded_header[1];
+  }
   $pattern = '/^(?:fix!\s*)?(\w*)(\(([\w\$\.\*\/-]*)\))?\: (.*)$/';
   preg_match($pattern, $header, $matches);
   $parsedHeader = [];
