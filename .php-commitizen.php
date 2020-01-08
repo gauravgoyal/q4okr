@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'project' => [
+        'prefix' => TRUE,
+        'pattern' => '/^UOFU-[0-9]{1,}/'
+    ],
     'type' => [
         'lengthMin' => 1, // Min length of the type
         'lengthMax' => 6, // Max length of the type
@@ -19,7 +23,7 @@ return [
     ],
     'subject' => [
         'lengthMin' => 1, // Min length of the subject
-        'lengthMax' => 50, // Max length of the subject
+        'lengthMax' => 60, // Max length of the subject
     ],
     'body' => [
         'wrap' => 72, // Wrap the body at 72 characters

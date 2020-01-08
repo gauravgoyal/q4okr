@@ -114,6 +114,9 @@ function checkValue($type, $values) {
  * Parse commit header.
  */
 function parseHeader($header) {
+  $exploded_header = explode('@', $header);
+  $project_prefix = $exploded_header[0];
+  $header = $exploded_header[1];
   $pattern = '/^(?:fix!\s*)?(\w*)(\(([\w\$\.\*\/-]*)\))?\: (.*)$/';
   preg_match($pattern, $header, $matches);
   $parsedHeader = [];
