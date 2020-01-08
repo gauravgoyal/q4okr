@@ -1,4 +1,4 @@
-# Q4OKR - Test
+# Q4OKR
 
 A brief description of My Project.
 
