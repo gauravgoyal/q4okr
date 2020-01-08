@@ -27,10 +27,11 @@ function startParsing($message) {
       array_push($errors, $error);
     }
     else {
+      $project_prefix_errors = testProjectPrefix($parsedHeader['project_prefix'], $config['project']);
       $type_errors = testType($parsedHeader['type'], $config['type']);
       $scope_errors = testScope($parsedHeader['scope'], $config['scope']);
       $message_errors = testMesage($parsedHeader['message'], $config['description']);
-      $errors = array_merge($type_errors, $scope_errors, $message_errors);
+      $errors = array_merge($project_prefix_errors, $type_errors, $scope_errors, $message_errors);
     }
   }
 
@@ -41,6 +42,19 @@ function startParsing($message) {
     exit(-1);
   }
   exit(0);
+}
+
+function testProjectPrefix($project_prefix, $config)
+{
+  $errors = [];
+
+  // Check the length of the commit type.
+  var_dump($project_prefix);
+  if ($config['prefix'] && !preg_match($config['pattern'], $project_prefix)) {
+    $error =  sprintf("Invalid project prefix: '%s'", $project_prefix);
+    array_push($errors, $error);
+  }
+  return $errors;
 }
 
 function testType($type, $config) {
@@ -122,6 +136,7 @@ function parseHeader($header) {
   $parsedHeader = [];
   if (!empty($matches)) {
     $parsedHeader = [
+      'project_prefix' => $project_prefix,
       'type' => $matches[1],
       'scope' => $matches[3],
       'message' => $matches[4]
