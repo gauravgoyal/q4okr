@@ -3,7 +3,7 @@
 return [
     'project' => [
         'prefix' => TRUE,
-        'pattern' => '/^UOFU-[0-9]{1,}/'
+        'pattern' => '/^Q4OKR-[0-9]{1,}/'
     ],
     'type' => [
         'lengthMin' => 1, // Min length of the type
