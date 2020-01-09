@@ -15,7 +15,7 @@
         "drupal/cog": "^1.0.0",
         "drupal/config_split": "^1.0.0",
         "drupal/core": "^8.6.0",
-        "drupal/devel": "^2.0.0",
+        "drupal/devel": "^2.1",
         "drupal/features": "^3.8.0",
         "drupal/pathauto": "^1.6",
         "drupal/qa_accounts": "^1.0.0-alpha1",
